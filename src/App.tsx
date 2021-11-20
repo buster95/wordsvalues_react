@@ -10,10 +10,16 @@ const service = new WordsEvaluatorService();
 function App() {
   const [word, setWord] = useState('');
   const [showValues, setShowValues] = useState(false);
+  const [words, setWords] = useState<string[]>([]);
 
   const onHandleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     setWord(target.value.toUpperCase());
+  };
+
+  const onHandleAddWord = () => {
+    setWords([...words, word]);
+    setWord('');
   };
 
   return (
@@ -49,10 +55,34 @@ function App() {
             <Form.Label>INGRESE UNA PALABRA</Form.Label>
             <Form.Control type="text" placeholder="Enter your word..." value={word} onChange={onHandleTextChange} />
           </Form.Group>
+          <Button onClick={onHandleAddWord}>Add Word</Button>
         </Form>
 
-        {service.evaluateWord(word)}
-
+        <br />
+        <div>
+          <Table striped bordered hover variant="dark">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Word</th>
+                <th>Max Value</th>
+                <th>Current Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {words.map((word, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{word}</td>
+                    <td>{service.maxWordValue(word)}</td>
+                    <td>{service.evaluateWord(word)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
       </header>
     </div>
   );
