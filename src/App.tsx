@@ -14,7 +14,7 @@ function App() {
 
   const onHandleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
-    setWord(target.value.toUpperCase());
+    setWord(target.value.toUpperCase().trim());
   };
 
   const onHandleAddWord = (e: FormEvent) => {
