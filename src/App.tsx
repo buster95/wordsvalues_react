@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
-import { ChangeEvent, memo, useState } from 'react';
+import { ChangeEvent, FormEvent, memo, useState } from 'react';
 import './App.scss';
 import { WordsEvaluatorService } from './services/words_evaluator.service';
 
@@ -17,7 +17,8 @@ function App() {
     setWord(target.value.toUpperCase());
   };
 
-  const onHandleAddWord = () => {
+  const onHandleAddWord = (e: FormEvent) => {
+    e.preventDefault();
     setWords([...words, word]);
     setWord('');
   };
@@ -50,12 +51,12 @@ function App() {
           </div>
         }
 
-        <Form>
+        <Form onSubmit={onHandleAddWord}>
           <Form.Group className="mb-3">
             <Form.Label>INGRESE UNA PALABRA</Form.Label>
             <Form.Control type="text" placeholder="Enter your word..." value={word} onChange={onHandleTextChange} />
           </Form.Group>
-          <Button onClick={onHandleAddWord}>Add Word</Button>
+          <Button type='submit'>Add Word</Button>
         </Form>
 
         <br />
